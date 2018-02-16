@@ -1,3 +1,4 @@
 {
-  "presets" : ["es2015-native-modules", "react"]
+  "presets" : ["es2015-native-modules", "react"],
+  "plugins" : ["transform-object-rest-spread"]
 }

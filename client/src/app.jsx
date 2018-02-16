@@ -2,16 +2,18 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Main from './components/Main.jsx';
 import BackgroundCheck from './components/BackgroundCheck.jsx';
-import {Switch, Route, HashRouter} from 'react-router-dom';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
 
-const App = () => {
-    <Switch >
-        <Route path='/' component={Main}/>
-        <Route path='/background' component={BackgroundCheck} />
-    </Switch>
-};
+const App = () =>
+    <BrowserRouter>
+        <Switch >
+            <Route exact path="/" component={Main}/>
+            <Route path="/background" component={BackgroundCheck} />
+        </Switch>
+    </BrowserRouter>
+;
 
 window.onload = function() {
-    ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById("main"));
+    ReactDOM.render(<App />, document.getElementById("main"));
 };
 

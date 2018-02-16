@@ -14,6 +14,7 @@ class ShopperForm extends Component {
             number : '',
             zipcode : '',
             ...cookies
+
         };
 
         this.handleNameChanged = this.handleNameChanged.bind(this);
@@ -62,6 +63,7 @@ class ShopperForm extends Component {
     }
 
     render() {
+
         return (
             <div>
 

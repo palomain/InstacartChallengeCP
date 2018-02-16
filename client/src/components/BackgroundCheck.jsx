@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ShopperForm from './ShopperForm.jsx';
-import {getCookies} from '../utils/utils.jsx';
+
 
 class BackgroundCheck extends Component {
 
     render() {
-
-        const data = getCookies();
-
         return (
             <div>
                 <h1>Notification and Authorization to Release Criminal Information for Employment Purposes</h1>
