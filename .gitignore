@@ -1,0 +1,14 @@
+/node_modules
+/build
+applicants.sqlite3
+bundle.js
+bundle.js.map
+style.css
+style.css.map
+npm-debug.log
+.DS_Store
+/
+
+# IntelliJ
+*.iml
+/.idea
