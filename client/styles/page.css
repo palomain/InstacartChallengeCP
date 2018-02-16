@@ -2,3 +2,16 @@
     margin:20px;
     position: relative;
 }
+
+.shopper-registration .show {
+    display: inline;
+}
+
+.shopper-registration .hide {
+    display: none;
+}
+
+.shopper-registration .jumbotron {
+    text-align: center;
+}
+

@@ -1,13 +1,41 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import ShopperForm from './ShopperForm.jsx';
+import ReactDOM from 'react-dom';
 
+import ShopperForm from './ShopperForm.jsx';
+import {Checkbox, Overlay} from 'react-bootstrap';
+import ErrorPopover from './ErrorPopover.jsx';
+
+import '../../styles/background-check.css';
 
 class BackgroundCheck extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            authorized: false,
+            displayAuthError : false
+        };
+
+        this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
+        this.validateAuth = this.validateAuth.bind(this);
+    }
+
+    handleCheckboxClick(){
+        this.setState({authorized:!this.state.authorized});
+    }
+
+    validateAuth(){
+        if(!this.state.authorized) {
+            this.setState({displayAuthError:true});
+            return false;
+        }
+
+        return true;
+    }
+
     render() {
         return (
-            <div>
+            <div className="background-check">
                 <h1>Notification and Authorization to Release Criminal Information for Employment Purposes</h1>
                 <br />
                 <br />
@@ -19,19 +47,34 @@ class BackgroundCheck extends Component {
 
                 <h2>Authorization</h2>
 
-                <p>
 
-                    <span class="important">*</span><input type="checkbox" name="auth"  id="auth"/>   I hereby authorize Instacart to conduct the criminal background check described above.  In connection with this, I also authorize the use of law enforcement agencies and/or private background check organizations to assist Instacart in collecting this information.  Validity Screening Solutions has been secured as a third party vendor (consumer reporting agency) to assist Instacart in collecting and verifying information.
+                <div style={{display:"inline"}}>
+                <span className="important" style={{display:"inline"}} >*</span><Checkbox className="auth-check"  style={{display:"inline"}}  ref={button => {
+                    this.target = button;
+                }} checked={this.state.authorized} onClick={this.handleCheckboxClick} />
+                <p style={{display:"inline"}}>
+                I hereby authorize Instacart to conduct the criminal background check described above.  In connection with this, I also authorize the use of law enforcement agencies and/or private background check organizations to assist Instacart in collecting this information.  Validity Screening Solutions has been secured as a third party vendor (consumer reporting agency) to assist Instacart in collecting and verifying information.
 
-                    I also am aware that records of arrests on pending charges and/or convictions are not an absolute bar to employment.  Such information will be used to determine whether the results of the background check reasonably bear on my trustworthiness or my ability to perform the duties of my position as an Instacart employee.
+                I also am aware that records of arrests on pending charges and/or convictions are not an absolute bar to employment.  Such information will be used to determine whether the results of the background check reasonably bear on my trustworthiness or my ability to perform the duties of my position as an Instacart employee.
+                    </p>
+                </div>
 
-                </p>
+
+
+                <Overlay
+                    show={this.state.displayAuthError}
+                    onHide={() => this.setState({ displayAuthError: false })}
+                    placement="right"
+                    container={this}
+                    target={() => ReactDOM.findDOMNode(this.target)}
+                >
+                    <ErrorPopover message={"Please check this box to approve background check"} />
+                </Overlay>
 
                 <br />
-                <small  id="authNotChecked" class="form-text hidden err-message ">*Please check the box before submitting to authorize background check and store your information in our candidate database.</small>
 
                 <h4>Please verify your information below before submitting</h4>
-                <ShopperForm submitUrl="add-shopper"/>
+                <ShopperForm submitUrl="add-shopper" validate={this.validateAuth}/>
             </div>
         );
     }

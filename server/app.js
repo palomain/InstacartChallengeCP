@@ -15,6 +15,8 @@ app.use(session({
     }
 ));
 
+const cookieNames = ["fname", "lname", "email", "number", "zipcode"];
+
 app.use( "/build", express.static(path.resolve('build')));
 app.use( "/client", express.static(path.resolve('client')));
 
@@ -26,26 +28,34 @@ app.get('/', (req, res, next)=>{
     }
 });
 
-app.get('/background', (req, res, next)=>{
-    res.sendFile(path.resolve("index.html"));
+app.get('/background', (req, res, next)=> {
+    if (!req.cookies || !req.cookies.email || !req.cookies.email.length) {
+        res.redirect("/");
+    }  else {
+        res.sendFile(path.resolve("index.html"));
+    }
 });
 
 app.post('/save-shopper', (req, res, next)=>{
 
-    const config = { maxAge :60*60*1000*24, httpOnly:false};
-    res.cookie("fname", req.body.fname, config);
-    res.cookie("lname", req.body.lname, config);
-    res.cookie("email", req.body.email,config);
-    res.cookie("number", req.body.number, config);
-    res.cookie("zipcode", req.body.zipcode, config);
-    res.send();
+    const config = { maxAge :60*60*1000, httpOnly:false};
+    for( let cookieName of cookieNames ){
+        res.cookie(cookieName,  req.body[cookieName], config);
+    }
+
+    res.sendStatus(200);
 });
 
-app.post('add-shopper', (req, res, next)=>{
-    console.info("")
-})
+app.post('/add-shopper', (req, res, next)=>{
+    console.info("Shopper info: " + JSON.stringify(req.body) );
+    const config = { expires : new Date(0), httpOnly:false};
+    for( let cookieName of cookieNames ){
+        res.cookie(cookieName,  "", config);
+    }
 
 
+    res.sendStatus(200);
+});
 
 const port = process.env.PORT || 3000;
 
