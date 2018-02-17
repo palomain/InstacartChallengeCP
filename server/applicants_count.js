@@ -13,7 +13,6 @@ const sql = 'SELECT count(id) as "count", date(created_at, "weekday 0", "-6 days
     "group by week, workflow_state";
 
 const db = new sqlite.Database(__dirname + '\\applicants.sqlite3', (error)=> {
-
         if(error) {
             process.stdout.write(error);
         } else {
