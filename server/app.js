@@ -53,7 +53,6 @@ app.post('/add-shopper', (req, res, next)=>{
         res.cookie(cookieName,  "", config);
     }
 
-
     res.sendStatus(200);
 });
 
